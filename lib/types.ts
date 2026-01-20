@@ -15,7 +15,8 @@ export interface BlessingTheme {
   }
   
   export interface GeneratedImage {
-    base64: string
+    base64?: string
+    url?: string
     mediaType: string
   }
   

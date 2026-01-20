@@ -5,19 +5,34 @@ import { Download, Share2, RefreshCw } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import type { GeneratedImage } from '@/lib/types'
 
+interface GeneratedText {
+  title: string
+  mainText: string
+  subtitle: string
+}
+
 interface GenerationResultProps {
   image: GeneratedImage | null
   isLoading: boolean
   onReset: () => void
+  generatedText?: GeneratedText | null
 }
 
-export function GenerationResult({ image, isLoading, onReset }: GenerationResultProps) {
+export function GenerationResult({ image, isLoading, onReset, generatedText }: GenerationResultProps) {
+  const getImageSrc = () => {
+    if (!image) return ''
+    if (image.url) return image.url
+    if (image.base64) return `data:${image.mediaType};base64,${image.base64}`
+    return ''
+  }
+
   const handleDownload = () => {
     if (!image) return
     
     const link = document.createElement('a')
-    link.href = `data:${image.mediaType};base64,${image.base64}`
+    link.href = getImageSrc()
     link.download = `blessphoto-${Date.now()}.${image.mediaType.split('/')[1] || 'png'}`
+    link.target = '_blank'
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
@@ -27,7 +42,8 @@ export function GenerationResult({ image, isLoading, onReset }: GenerationResult
     if (!image) return
     
     try {
-      const response = await fetch(`data:${image.mediaType};base64,${image.base64}`)
+      const imageSrc = getImageSrc()
+      const response = await fetch(imageSrc)
       const blob = await response.blob()
       const file = new File([blob], 'blessphoto.png', { type: image.mediaType })
       
@@ -71,11 +87,24 @@ export function GenerationResult({ image, isLoading, onReset }: GenerationResult
       
       <div className="relative mx-auto max-w-md overflow-hidden rounded-xl border-2 border-border shadow-lg">
         <img
-          src={`data:${image.mediaType};base64,${image.base64}`}
+          src={getImageSrc()}
           alt="生成的祝福图片"
           className="w-full"
+          crossOrigin="anonymous"
         />
       </div>
+
+      {/* 显示 AI 生成的文案 */}
+      {generatedText && (
+        <div className="mx-auto max-w-md rounded-lg bg-secondary/30 p-4 space-y-2">
+          <p className="text-xs text-muted-foreground">AI 生成的祝福文案：</p>
+          <div className="space-y-1 text-sm">
+            <p className="font-semibold text-foreground">{generatedText.title}</p>
+            <p className="text-foreground/90">{generatedText.mainText}</p>
+            <p className="text-muted-foreground italic">{generatedText.subtitle}</p>
+          </div>
+        </div>
+      )}
 
       <div className="flex flex-wrap justify-center gap-3">
         <Button onClick={handleDownload} className="gap-2">

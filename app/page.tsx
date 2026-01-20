@@ -47,7 +47,7 @@ export default function Home() {
       
       <main className="flex-1 container mx-auto px-4 py-8">
         <Hero />
-        <section className="py-12">
+        <section className="pb-12">
           <Generator 
             onNeedCredits={() => setIsPricingOpen(true)} 
             onNeedLogin={handleNeedLogin}

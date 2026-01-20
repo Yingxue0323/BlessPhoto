@@ -33,11 +33,14 @@ export function BlessingInput({ value, onChange, themeName }: BlessingInputProps
         onChange={(e) => onChange(e.target.value)}
         placeholder="在这里写下你的祝福..."
         className="min-h-[100px] resize-none"
-        maxLength={200}
+        maxLength={20}
       />
       <div className="flex items-center justify-between">
         <span className="text-xs text-muted-foreground">
-          {value.length}/200
+          {value.length}/20 字
+        </span>
+        <span className="text-xs text-muted-foreground">
+          AI 会自动扩写并排版
         </span>
       </div>
       {suggestions.length > 0 && (

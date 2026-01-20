@@ -13,10 +13,10 @@ const features = [
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden py-12 sm:py-16">
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-0 left-1/4 h-64 w-64 rounded-full bg-primary/5 blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 h-64 w-64 rounded-full bg-accent/10 blur-3xl" />
+    <section className="relative overflow-visible py-12 sm:py-16">
+      <div className="absolute inset-0 -z-10 pointer-events-none" style={{ height: '150vh' }}>
+        <div className="absolute top-0 left-1/4 h-96 w-96 rounded-full bg-primary/5 blur-3xl" />
+        <div className="absolute top-1/2 right-1/4 h-96 w-96 rounded-full bg-accent/10 blur-3xl" />
       </div>
       
       <div className="text-center">
@@ -39,10 +39,10 @@ export function Hero() {
           {features.map(({ icon: Icon, label }) => (
             <div
               key={label}
-              className="flex items-center gap-2 rounded-full bg-card border border-border px-4 py-2"
+              className="flex items-center gap-2 rounded-full bg-primary/5 px-4 py-2"
             >
               <Icon className="h-4 w-4 text-primary" />
-              <span className="text-sm font-medium text-foreground">{label}</span>
+              <span className="text-sm font-medium text-muted-foreground">{label}</span>
             </div>
           ))}
         </div>

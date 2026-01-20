@@ -16,24 +16,24 @@ export function ThemeSelector({ selected, onSelect }: ThemeSelectorProps) {
       <label className="text-sm font-medium text-foreground">
         选择祝福主题
       </label>
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
         {BLESSING_THEMES.map((theme) => (
           <button
             key={theme.id}
             type="button"
             onClick={() => onSelect(theme)}
             className={cn(
-              'group flex flex-col items-center gap-2 rounded-xl border-2 p-4 transition-all duration-200',
+              'group flex flex-row items-center justify-center gap-2 rounded-lg border p-2 transition-all duration-200',
               'hover:border-primary/50 hover:bg-secondary/50',
               selected?.id === theme.id
                 ? 'border-primary bg-primary/5 shadow-sm'
                 : 'border-border bg-card'
             )}
           >
-            <span className="text-2xl" role="img" aria-label={theme.name}>
+            <span className="text-xl" role="img" aria-label={theme.name}>
               {theme.icon}
             </span>
-            <span className="text-sm font-medium text-center">{theme.name}</span>
+            <span className="text-sm font-medium whitespace-nowrap">{theme.name}</span>
           </button>
         ))}
       </div>
