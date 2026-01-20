@@ -64,7 +64,7 @@ export default function ProfilePage() {
             {/* 左侧：用户信息文字 */}
             <div className="md:w-1/3 md:sticky md:top-8">
               <ProfileInfo />
-            </div>
+        </div>
 
             {/* 右侧：使用统计卡片 */}
             <div className="flex-1">

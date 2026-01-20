@@ -152,7 +152,14 @@ export function useAuth() {
 
   const signInWithGoogle = useCallback(async () => {
     if (configured && supabase) {
-      const redirectUrl = process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL || window.location.origin
+      // 开发环境可以用 DEV_REDIRECT_URL，生产环境用当前域名
+      const isDev = process.env.NODE_ENV === 'development'
+      const redirectUrl = isDev 
+        ? (process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL || window.location.origin)
+        : window.location.origin
+      
+      console.log('[use-auth] Redirect URL:', redirectUrl)
+      
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
