@@ -16,8 +16,8 @@ export async function GET(req: NextRequest) {
 
   console.log('[check-task] Checking status for taskId:', taskId)
 
-  // 从内存中查询结果
-  const result = taskResultsStore.get(taskId)
+  // 从 Vercel KV 查询结果（跨实例共享）
+  const result = await taskResultsStore.get(taskId)
   
   if (!result) {
     console.log('[check-task] Task not found or still processing')
@@ -51,7 +51,7 @@ export async function GET(req: NextRequest) {
       console.log('[check-task] ✅ Image downloaded and converted')
 
       // 清除已使用的结果
-      taskResultsStore.delete(taskId)
+      await taskResultsStore.delete(taskId)
 
       return NextResponse.json({
         success: true,
@@ -71,7 +71,7 @@ export async function GET(req: NextRequest) {
     console.error('[check-task] ❌ Task failed:', result.msg)
     
     // 清除失败的结果
-    taskResultsStore.delete(taskId)
+    await taskResultsStore.delete(taskId)
 
     let errorMessage = '图片生成失败'
     if (result.code === 400) {

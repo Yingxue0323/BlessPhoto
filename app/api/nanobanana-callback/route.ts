@@ -19,8 +19,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ status: 'error', message: 'Missing taskId' }, { status: 400 })
     }
 
-    // 存储结果到共享存储
-    taskResultsStore.set(taskId, {
+    // 存储结果到 Vercel KV（跨实例共享）
+    await taskResultsStore.set(taskId, {
       code,
       msg,
       data
